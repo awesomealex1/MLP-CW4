@@ -2,11 +2,12 @@ from typing import Union, List, Optional
 
 import torch
 import torch.nn.functional as F
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, AutoModelForSeq2SeqLM
 
 class CAD:
     def __init__(self, model_name: str, device: Union[int,str] = 0):
-        self.model = AutoModelForCausalLM.from_pretrained(model_name, load_in_8bit=True, device_map=device, use_cache=True)
+        #self.model = AutoModelForCausalLM.from_pretrained(model_name, load_in_8bit=True, device_map=device, use_cache=True)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name, load_in_8bit=True, device_map=device, use_cache=True)
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         
         if model_name.startswith('huggyllama'): # add [PAD] token to tokenizer if model_name is huggyllama, because huggyllama doesn't have a pad token
