@@ -1,6 +1,7 @@
 import os
 import time
 from functools import lru_cache
+from cad import CAD
 
 from fastapi import FastAPI
 
@@ -45,6 +46,7 @@ def get_model_and_tokenizer():
         "flan-t5-large-bf16",
         "flan-t5-xl-bf16",
         "flan-t5-xxl-bf16",
+        "flan-t5-base-cad",
     ]
     assert model_shortname in valid_model_shortnames, f"Model name {model_shortname} not in {valid_model_shortnames}"
 
@@ -92,7 +94,7 @@ def get_model_and_tokenizer():
         # the fast tokenizer currently does not work correctly
         tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
 
-    elif model_shortname.startswith("flan-t5") and "bf16" not in model_shortname:
+    elif model_shortname.startswith("flan-t5") and "bf16" not in model_shortname and "cad" not in model_shortname:
         model_name = "google/" + model_shortname
         if torch.cuda.device_count() == 2:
             hf_device_map = {"shared": 1, "encoder": 0, "decoder": 1, "lm_head": 1}
@@ -114,6 +116,16 @@ def get_model_and_tokenizer():
             model_name, device_map=hf_device_map, torch_dtype=torch.bfloat16
         )
         tokenizer = T5Tokenizer.from_pretrained(model_name)
+    
+    elif model_shortname.startswith("flan-t5") and model_shortname.endswith("-cad"):
+        model_name = "google/" + model_shortname.replace("-cad", "")
+        if torch.cuda.device_count() == 2:
+            hf_device_map = {"shared": 1, "encoder": 0, "decoder": 1, "lm_head": 1}
+        else:
+            hf_device_map = "auto"
+
+        model = CAD(model_name, device=hf_device_map)
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     elif model_shortname == "ul2":
         model_name = "google/" + model_shortname
