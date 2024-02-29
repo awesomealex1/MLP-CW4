@@ -114,7 +114,7 @@ class LLMQAParticipantModel(ParticipantModel):
 
         self.num_calls += 1
         context_suffix = extract_key_information(state, self.key_info_type)
-        answer, facts_used = self.qa_model.ask_question(
+        answer, null_answer, facts_used = self.qa_model.ask_question(
             input_question=question, context=context, context_suffix=context_suffix
         )
 
@@ -122,6 +122,11 @@ class LLMQAParticipantModel(ParticipantModel):
             answer = self.extractor_regex.match(answer).group(1)
             if self.extractor_remove_last_fullstop and answer.endswith("."):
                 answer = answer[:-1]
+        
+        if self.extractor_regex and isinstance(null_answer, str) and self.extractor_regex.match(null_answer):
+            null_answer = self.extractor_regex.match(null_answer).group(1)
+            if self.extractor_remove_last_fullstop and null_answer.endswith("."):
+                null_answer = null_answer[:-1]
 
         if self.answer_is_numbered_list:
             answer = [re.sub(r"^\d+\.", "", e.strip()).strip() for e in str(answer).split("\n")]

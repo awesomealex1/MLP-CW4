@@ -39,30 +39,47 @@ class LLMQAModel:
             elif isinstance(context, list):
                 context = "\n\n".join(context)
             if context:
+                null_question_prompt = question_prompt
                 question_prompt += "\n\n" + context + context_suffix
 
+        null_question_prompt += "\n\nQ: " + input_question + "\nA:"
         question_prompt += "\n\nQ: " + input_question + "\nA:"
         # print("<QA>: ... %s" % question_prompt[-500:])
         output_text_scores = self.generator.generate_text_sequence(question_prompt)
+        null_output_text_scores = self.generator.generate_text_sequence(null_question_prompt)
 
         self.num_calls += 1
         if len(output_text_scores) > 1:
             print("Can not handle more than one answer for QA model yet" + "\n" + str(output_text_scores))
             output_text_scores = [output_text_scores[0]]
+        
+        if len(null_output_text_scores) > 1:
+            print("Can not handle more than one answer for QA model yet" + "\n" + str(null_output_text_scores))
+            null_output_text_scores = [null_output_text_scores[0]]
 
         # only answer string
         answer_str = output_text_scores[0][0].strip()
+        null_answer_str = null_output_text_scores[0][0].strip()
         if self.regex_extract:
             m = re.match(self.regex_extract, answer_str)
+            m_null = re.match(self.regex_extract, null_answer_str)
             if m:
                 answer_str = m.group(1).strip()
             else:
                 # No match
                 print("Did not find a match for input regex: {} in {}".format(self.regex_extract, answer_str))
                 return "", []
+            
+            if m_null:
+                null_answer_str = m_null.group(1).strip()
+            else:
+                # No match
+                print("Did not find a match for input regex: {} in {}".format(self.regex_extract, null_answer_str))
+                return "", []
         try:
             json_answer = json.loads(answer_str)
-            return json_answer, []
+            json_null_answer = json.loads(null_answer_str)  
+            return json_answer, json_null_answer, []
         except ValueError:
             # Not a valid json ignore
             pass

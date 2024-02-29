@@ -155,6 +155,7 @@ async def index():
 @app.get("/generate/")
 async def generate(
     prompt: str,
+    null_prompt: str = "",
     max_input: int = None,
     max_length: int = 200,
     min_length: int = 1,
@@ -174,6 +175,7 @@ async def generate(
 
     model, tokenizer = get_model_and_tokenizer()
     inputs = tokenizer.encode(prompt, return_tensors="pt", max_length=max_input).cuda()
+    null_inputs = tokenizer.encode(null_prompt, return_tensors="pt", max_length=max_input).cuda()
 
     stopping_criteria_list = StoppingCriteriaList()
     if eos_text:
@@ -192,6 +194,7 @@ async def generate(
     # max_length_ = max_length if is_encoder_decoder else inputs.shape[1]+max_length
     generated_output = model.generate(
         inputs,
+        null_inputs,
         # max_length=max_length_,
         max_new_tokens=max_length,
         min_length=min_length,
