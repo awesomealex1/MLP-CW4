@@ -24,6 +24,7 @@ from transformers import (
     T5Tokenizer,
     T5ForConditionalGeneration,
 )
+from transformers import GenerationConfig
 
 
 @lru_cache(maxsize=None)
@@ -181,6 +182,13 @@ async def generate(
 
     # T0pp, ul2 and flan are the only encoder-decoder model, and so don't have prompt part in its generation.
     is_encoder_decoder = model_shortname in ["T0pp", "ul2"] or model_shortname.startswith("flan-t5")
+    print(tokenizer.bos_token_id)
+    generation_config = GenerationConfig(
+        context_aware_decoding_alpha=0.1,
+        bos_token_id=0,
+        eos_token_id=tokenizer.eos_token_id,
+        pad_token_id=tokenizer.pad_token_id,
+        )
     # max_length_ = max_length if is_encoder_decoder else inputs.shape[1]+max_length
     generated_output = model.generate(
         inputs,
@@ -197,7 +205,8 @@ async def generate(
         length_penalty=length_penalty,
         stopping_criteria=stopping_criteria_list,
         output_scores=False,  # make it configurable later. It turns in generated_output["scores"]
-    )
+        generation_config=generation_config,
+        )
     generated_ids = generated_output["sequences"]
     generated_texts = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)
 
