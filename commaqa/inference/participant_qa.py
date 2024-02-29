@@ -114,7 +114,7 @@ class LLMQAParticipantModel(ParticipantModel):
 
         self.num_calls += 1
         context_suffix = extract_key_information(state, self.key_info_type)
-        answer, null_answer, facts_used = self.qa_model.ask_question(
+        answer, facts_used = self.qa_model.ask_question(
             input_question=question, context=context, context_suffix=context_suffix
         )
 
