@@ -836,9 +836,12 @@ class StepByStepCOTGenParticipant(ParticipantModel):
             else:
                 test_example_str = f"Q: {question}" + "\n" + f"A: {generation_so_far}"
 
-            prompt = "\n\n\n".join([self.prompt, test_example_str]).strip()
+            null_test_example_str =  f"Q: {question}" + "\n" + f"A: {generation_so_far}"
 
-            output_text_scores = self.generator.generate_text_sequence(prompt)
+            prompt = "\n\n\n".join([self.prompt, test_example_str]).strip()
+            null_prompt = "\n\n\n".join([self.prompt, null_test_example_str]).strip()
+
+            output_text_scores = self.generator.generate_text_sequence(prompt, null_prompt)
             if len(output_text_scores) > 1:
                 print("Can not handle more than one answer for this model yet" + "\n" + str(output_text_scores))
 
