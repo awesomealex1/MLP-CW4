@@ -691,8 +691,10 @@ class StepByStepLLMTitleGenParticipant(ParticipantModel):
         test_example_str = re.sub(r"\n\n+", "\n\n", test_example_str)
 
         prompt = "\n\n\n".join([self.prompt, test_example_str]).strip()
+        
+        null_prompt = prompt
 
-        output_text_scores = self.generator.generate_text_sequence(prompt)
+        output_text_scores = self.generator.generate_text_sequence(prompt, null_prompt)
 
         if len(output_text_scores) > 1:
             print("Can not handle more than one answer for this model yet" + "\n" + str(output_text_scores))

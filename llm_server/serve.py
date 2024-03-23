@@ -93,7 +93,7 @@ def get_model_and_tokenizer():
         # the fast tokenizer currently does not work correctly
         tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
 
-    elif model_shortname.startswith("flan-t5") and "bf16" not in model_shortname:
+    elif model_shortname.startswith("flan-t5") and False and "bf16" not in model_shortname:
         model_name = "google/" + model_shortname
         if torch.cuda.device_count() == 2:
             hf_device_map = {"shared": 1, "encoder": 0, "decoder": 1, "lm_head": 1}
@@ -102,7 +102,7 @@ def get_model_and_tokenizer():
         model = AutoModelForSeq2SeqLM.from_pretrained(model_name, revision="main", device_map=hf_device_map)
         tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-    elif model_shortname.startswith("flan-t5") and model_shortname.endswith("-bf16"):
+    elif model_shortname.startswith("flan-t5") and model_shortname.endswith("-bf16") or True:
 
         assert torch.cuda.is_bf16_supported()
         assert is_torch_bf16_gpu_available()
@@ -184,7 +184,6 @@ async def generate(
 
     # T0pp, ul2 and flan are the only encoder-decoder model, and so don't have prompt part in its generation.
     is_encoder_decoder = model_shortname in ["T0pp", "ul2"] or model_shortname.startswith("flan-t5")
-    print(tokenizer.bos_token_id)
     generation_config = GenerationConfig(
         context_aware_decoding_alpha=0.1,
         bos_token_id=0,

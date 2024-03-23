@@ -172,6 +172,7 @@ class LLMClientGenerator:
             "flan-t5-xl",
             "flan-t5-xxl",
             "ul2",
+            "flan-t5-xxl-bf16",
         ]
         model_name_ = model_name
         if "/" in model_name:
