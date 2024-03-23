@@ -273,6 +273,19 @@ If you're stuck anywhere in this process, open an issue with your specific choic
 
 **NOTE:** If you are trying to reproduce any of our experiments with your code and/or model, note that the choice of HP can make a huge difference in the result. See the sample output here, for example. In some experiments, the difference in scores between best and worst HP is over 20 pts. So do not skip the used HP tuning. If it is getting slow/expensive to try out all HPs, at least you might want to look at our HP exploration summary report above to guestimate what is likely to work the best.
 
+# Using CAD with IRCoT
+
+**NOTE:** To use CAD with IRCoT we use [this](https://github.com/zhichaoxu-shufe/context-aware-decoding-qfs) repository.
+
+#### Install huggingface library
+follow instructions in https://huggingface.co/docs/transformers/installation and do <b>Editable Install</b>
+
+Select commit d628664688b05cabdd69f4e7e295bc4aee0a8d31
+
+#### Add context-aware decoding
+replace `transformers/src/transformers/generation/utils.py` with `cad/utils.py`
+
+
 # Acknowledgment
 
 This code is heavily based on [CommaQA](https://github.com/allenai/CommaQA), which provides a way to build complex/multi-step systems involving agents. All modeling-related code for IRCoT project is in `commaqa/inference/ircot.py`, and all experiment configs (without HPs instantiated) for this project are in `base_configs/`.
