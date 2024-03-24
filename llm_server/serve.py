@@ -99,10 +99,14 @@ def get_model_and_tokenizer():
             hf_device_map = {"shared": 1, "encoder": 0, "decoder": 1, "lm_head": 1}
         else:
             hf_device_map = "auto"
-        model = AutoModelForSeq2SeqLM.from_pretrained(model_name, revision="main", device_map=hf_device_map)
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
-
-    elif model_shortname.startswith("flan-t5") and model_shortname.endswith("-bf16"):
+        
+        eddie = True
+        if eddie:
+            model = AutoModelForSeq2SeqLM.from_pretrained(model_name, revision="main", device_map=hf_device_map, cache_dir="/exports/eddie/scratch/s2017377/ircot") # Change dir for your own cache dir (just random one)
+            tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir="/exports/eddie/scratch/s2017377/ircot") # Change dir for your own cache dir (just random one)
+        else:
+            model = AutoModelForSeq2SeqLM.from_pretrained(model_name, revision="main", device_map=hf_device_map)
+            tokenizer = AutoTokenizer.from_pretrained(model_name)
 
         assert torch.cuda.is_bf16_supported()
         assert is_torch_bf16_gpu_available()

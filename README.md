@@ -12,6 +12,8 @@ pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 ```
 
+use conda to install jsonnet if running into errors.
+
 # Prepare Data
 
 You can download all our processed data by running
@@ -284,7 +286,6 @@ Select commit d628664688b05cabdd69f4e7e295bc4aee0a8d31
 
 #### Add context-aware decoding
 replace `transformers/src/transformers/generation/utils.py` with `cad/utils.py`
-
 
 # Acknowledgment
 
