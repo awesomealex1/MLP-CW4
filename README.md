@@ -1,6 +1,6 @@
-# <h1 align="center"> Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions </h1>
+# <h1 align="center"> Combining Interleaving Retrieval with Chain-of-Thought Reasoning with Context-aware Decoding </h1>
 
-This is the repository for our ACL 2023 paper ["Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions"](https://arxiv.org/abs/2212.10509).
+We use the base code from ["Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions"](https://arxiv.org/abs/2212.10509) in addition with code from ["Context-aware Decoding Reduces Hallucination in Query-focused Summarization"](https://arxiv.org/pdf/2312.14335.pdf)
 
 ![IRCoT Main Figure](ircot.jpg?raw=true)
 
@@ -289,29 +289,4 @@ replace `transformers/src/transformers/generation/utils.py` with `cad/utils.py`
 
 # Acknowledgment
 
-This code is heavily based on [CommaQA](https://github.com/allenai/CommaQA), which provides a way to build complex/multi-step systems involving agents. All modeling-related code for IRCoT project is in `commaqa/inference/ircot.py`, and all experiment configs (without HPs instantiated) for this project are in `base_configs/`.
-
-# Citation
-
-If you find this work useful, consider citing it:
-
-```bib
-@inproceedings{trivedi-etal-2023-interleaving,
-    title = "Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions",
-    author = "Trivedi, Harsh  and
-      Balasubramanian, Niranjan  and
-      Khot, Tushar  and
-      Sabharwal, Ashish",
-    editor = "Rogers, Anna  and
-      Boyd-Graber, Jordan  and
-      Okazaki, Naoaki",
-    booktitle = "Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
-    month = jul,
-    year = "2023",
-    address = "Toronto, Canada",
-    publisher = "Association for Computational Linguistics",
-    url = "https://aclanthology.org/2023.acl-long.557",
-    doi = "10.18653/v1/2023.acl-long.557",
-    pages = "10014--10037",
-}
-```
+We use the base code from ["Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions"](https://arxiv.org/abs/2212.10509) in addition with code from ["Context-aware Decoding Reduces Hallucination in Query-focused Summarization"](https://arxiv.org/pdf/2312.14335.pdf)
