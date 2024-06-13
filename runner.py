@@ -11,7 +11,7 @@ def main():
     all_datasets = ["hotpotqa", "2wikimultihopqa", "musique", "iirc"]
     all_datasets += ["_to_".join([dataset_a, dataset_b]) for dataset_a in all_datasets for dataset_b in all_datasets]
     parser.add_argument("dataset", type=str, choices=all_datasets)
-    parser.add_argument("alpha", type=float, help="alpha to use for CAD", required=True)
+    parser.add_argument("context_aware_decoding_alpha", type=float, help="context_aware_decoding_alpha to use for CAD", required=True)
     parser.add_argument(
         "command",
         type=str,
@@ -58,9 +58,9 @@ def main():
     else:
         train_dataset = eval_dataset = args.dataset
 
-    experiment_name = "_".join([args.system, args.model.replace("-", "_"), args.dataset, args.alpha])
+    experiment_name = "_".join([args.system, args.model.replace("-", "_"), args.dataset, args.context_aware_decoding_alpha])
     if args.model == "none":
-        experiment_name = "_".join([args.system, args.dataset, args.alpha])
+        experiment_name = "_".join([args.system, args.dataset, args.context_aware_decoding_alpha])
     instantiation_scheme = args.system
 
     run_command_array = [

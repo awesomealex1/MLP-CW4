@@ -23,6 +23,7 @@ def non_cached_llm_call(  # kwargs doesn't work with caching.
     repetition_penalty=None,
     length_penalty=None,
     keep_prompt=False,
+    context_aware_decoding_alpha=0.0,
 ) -> Dict:
 
     params = {
@@ -39,6 +40,7 @@ def non_cached_llm_call(  # kwargs doesn't work with caching.
         "repetition_penalty": repetition_penalty,
         "length_penalty": length_penalty,
         "keep_prompt": keep_prompt,
+        "context_aware_decoding_alpha": context_aware_decoding_alpha,
     }
 
     host = os.environ.get("LLM_SERVER_HOST", None)
@@ -85,6 +87,7 @@ def cached_llm_call(  # kwargs doesn't work with caching.
     repetition_penalty=None,
     length_penalty=None,
     keep_prompt=False,
+    context_aware_decoding_alpha=0.0,
 ) -> Dict:
     return non_cached_llm_call(
         prompt,
@@ -101,6 +104,7 @@ def cached_llm_call(  # kwargs doesn't work with caching.
         repetition_penalty=repetition_penalty,
         length_penalty=length_penalty,
         keep_prompt=keep_prompt,
+        context_aware_decoding_alpha=context_aware_decoding_alpha,
     )
 
 
@@ -119,6 +123,7 @@ def llm_call(
     repetition_penalty=None,
     length_penalty=None,
     keep_prompt=False,
+    context_aware_decoding_alpha=0.0,
 ) -> Dict:
     function = cached_llm_call if not do_sample and temperature > 0 else non_cached_llm_call
     return function(
@@ -136,6 +141,7 @@ def llm_call(
         repetition_penalty=repetition_penalty,
         length_penalty=length_penalty,
         keep_prompt=keep_prompt,
+        context_aware_decoding_alpha=context_aware_decoding_alpha,
     )
 
 
@@ -160,6 +166,7 @@ class LLMClientGenerator:
         length_penalty=None,
         model_tokens_limit=2000,
         remove_method="first",
+        context_aware_decoding_alpha=0.0,
     ):
 
         valid_model_names = [
@@ -194,6 +201,7 @@ class LLMClientGenerator:
         self.length_penalty = length_penalty
         self.model_tokens_limit = model_tokens_limit
         self.remove_method = remove_method
+        self.context_aware_decoding_alpha = context_aware_decoding_alpha
 
     def generate_text_sequence(self, prompt, null_prompt):
         """
@@ -241,6 +249,7 @@ class LLMClientGenerator:
             "repetition_penalty": self.repetition_penalty,
             "length_penalty": self.length_penalty,
             "keep_prompt": False,
+            "context_aware_decoding_alpha": self.context_aware_decoding_alpha,
         }
         result = llm_call(**params)
 

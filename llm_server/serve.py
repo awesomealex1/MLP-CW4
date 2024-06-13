@@ -172,6 +172,7 @@ async def generate(
     length_penalty: float = None,
     eos_text: str = None,
     keep_prompt: bool = False,
+    context_aware_decoding_alpha: float = 0.0,
 ):
     start_time = time.time()
 
@@ -189,7 +190,7 @@ async def generate(
     # T0pp, ul2 and flan are the only encoder-decoder model, and so don't have prompt part in its generation.
     is_encoder_decoder = model_shortname in ["T0pp", "ul2"] or model_shortname.startswith("flan-t5")
     generation_config = GenerationConfig(
-        context_aware_decoding_alpha=0.1,
+        context_aware_decoding_alpha=context_aware_decoding_alpha,
         bos_token_id=0,
         eos_token_id=tokenizer.eos_token_id,
         pad_token_id=tokenizer.pad_token_id,
