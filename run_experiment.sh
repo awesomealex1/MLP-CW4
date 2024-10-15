@@ -8,7 +8,7 @@ valid_systems=("ircot" "ircot_qa" "oner" "oner_qa" "nor_qa")
 valid_models=("codex" "flan-t5-xxl" "flan-t5-xl" "flan-t5-large" "flan-t5-base" "none")
 valid_datasets=("hotpotqa" "2wikimultihopqa" "musique" "iirc")
 min_alpha=0.0
-max_alpha=1.0
+max_alpha=10.0
 
 # Function to check if an argument is valid
 check_argument() {
