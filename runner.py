@@ -11,7 +11,7 @@ def main():
     all_datasets = ["hotpotqa", "2wikimultihopqa", "musique", "iirc"]
     all_datasets += ["_to_".join([dataset_a, dataset_b]) for dataset_a in all_datasets for dataset_b in all_datasets]
     parser.add_argument("dataset", type=str, choices=all_datasets)
-    parser.add_argument("context_aware_decoding_alpha", type=float, help="context_aware_decoding_alpha to use for CAD", required=True)
+    parser.add_argument("context_aware_decoding_alpha", type=float, help="context_aware_decoding_alpha to use for CAD")
     parser.add_argument(
         "command",
         type=str,
