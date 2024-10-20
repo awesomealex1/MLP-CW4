@@ -36,8 +36,8 @@ check_alpha() {
 }
 
 # Check the number of arguments
-if [[ $# -ne 3 ]]; then
-    echo "Error: Invalid number of arguments. Expected format: ./reproduce.sh SYSTEM MODEL DATASET"
+if [[ $# -ne 4 ]]; then
+    echo "Error: Invalid number of arguments. Expected format: ./run_experiment.sh SYSTEM MODEL DATASET ALPHA"
     exit 1
 fi
 
