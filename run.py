@@ -552,7 +552,7 @@ def main():
     # based on what prompt_set is passed. For prompt_set_1 I'll have __best suffix. For the rest, I'll have
     # __best_p1_to_p2, and __best_p1_to_p3 suffixes. I know the naming is a bit odd, but due to legacy reasons.
 
-    name_without_alpha = "".join(args.experiment_name_or_path.split('_')[:-1])
+    name_without_alpha = "_".join(args.experiment_name_or_path.split('_')[:-1])
     config_filepath = get_config_file_path_from_name_or_path(name_without_alpha)
     base_config_name = os.path.splitext(os.path.split(config_filepath)[1])[0]
     hyperparameter_variations_directory = os.path.join("instantiated_configs")
