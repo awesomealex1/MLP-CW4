@@ -7,4 +7,4 @@
 #$ -q gpu 
 #$ -pe gpu-a100 1
 
-bash run_experiment.sh ircot_qa flan-t5-xxl musique 0
+bash run_experiment.sh ircot_qa flan-t5-xxl musique 0.0

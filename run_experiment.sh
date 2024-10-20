@@ -30,7 +30,7 @@ check_argument() {
 check_alpha() {
     local alpha="$1"
     if [[ $alpha < $min_alpha || $alpha > $max_alpha ]]; then
-        echo "The alpha value should be between $min_alpha and $max_alpha."
+        echo "The alpha value should be between $min_alpha and $max_alpha. $alpha is not valid"
         exit 1
     fi
 }
