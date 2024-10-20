@@ -7,4 +7,7 @@
 #$ -q gpu 
 #$ -pe gpu-a100 1
 
+module load anaconda
+conda activate ircot
+
 bash run_experiment.sh ircot_qa flan-t5-xxl musique 0.0
