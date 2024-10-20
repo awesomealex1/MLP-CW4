@@ -58,7 +58,7 @@ def main():
     else:
         train_dataset = eval_dataset = args.dataset
 
-    experiment_name = "_".join([args.system, args.model.replace("-", "_"), args.dataset, args.context_aware_decoding_alpha])
+    experiment_name = "_".join([args.system, args.model.replace("-", "_"), args.dataset, str(args.context_aware_decoding_alpha)])
     if args.model == "none":
         experiment_name = "_".join([args.system, args.dataset, args.context_aware_decoding_alpha])
     instantiation_scheme = args.system
